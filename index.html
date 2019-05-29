@@ -10,17 +10,63 @@
 
 <body>
   <button id="getText">Get Text</button>
+  <button id="getUsers">Get JSON</button>
+  <button id="getPosts">Get API DATA</button>
+  <div id="outPut"></div>
+
+
 
   <script>
     document.getElementById('getText').addEventListener('click', getText);
+    document.getElementById('getUsers').addEventListener('click', getUsers);
+    document.getElementById('gatPosts').addEventListener('click', getPosts);
 
     function getText() {
-      console.log(123);
+      fetch('sample.txt')
+        .then((res) => res.text())
+        .then((data) => {
+          document.getElementById('outPut').innerHTML = data;
+        })
+        .catch((err) => console.log(err));
+    }
+
+    function getText() {
+      fetch('users.json')
+        .then((res) => res.json())
+        .then((data) => {
+          let outPut = '<h2>Users</h2>';
+          data.forEach(function (user) {
+            outPut += `
+            <ul>
+               <li>ID: ${user.id}</li>
+               <li>Name: ${user.name}</li>
+               <li>Email: ${user.email}</li>
+            </ul>
+            `;
+          });
+          document.getElementById('outPut').innerHTML = outPut;
+        })
+        .catch((err) => console.log(err));
+    }
+
+    function getPosts() {
+      fetch('https://jsonplaceholder.typicode.com/posts')
+        .then((res) => res.json())
+        .then((data) => {
+          let outPut = '<h2>Posts</h2>';
+          data.forEach(function (user) {
+            outPut += `
+            <div>
+              <h3>${post.title}</h3>
+              <p>${post.body}</p>
+            </div>
+            `;
+          });
+          document.getElementById('outPut').innerHTML = outPut;
+        })
+        .catch((err) => console.log(err));
     }
   </script>
-
-
-
 
 </body>
 
